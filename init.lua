@@ -80,9 +80,8 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 20
 
-vim.opt.foldenable = true
+vim.opt.foldmethod = 'indent'
 vim.opt.foldlevel = 99
-vim.opt.foldlevelstart = 99
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -144,6 +143,7 @@ require('lazy').setup({
 
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
+    tag = 'v0.9.0',
     opts = {
       signs = {
         add = { text = '+' },
@@ -226,24 +226,6 @@ require('lazy').setup({
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       },
     },
-  },
-  {
-    'kevinhwang91/nvim-ufo',
-    dependencies = 'kevinhwang91/promise-async',
-    config = function()
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities.textDocument.foldingRange = {
-        dynamicRegistration = false,
-        lineFoldingOnly = true,
-      }
-      local language_servers = vim.lsp.get_clients()
-      for _, ls in ipairs(language_servers) do
-        require('lspconfig')[ls].setup {
-          capabilities = capabilities,
-        }
-      end
-      require('ufo').setup()
-    end,
   },
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
